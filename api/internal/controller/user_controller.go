@@ -26,6 +26,7 @@ func NewUserController(uc usecase.UserUsecase) *UserController {
 type (
 	SignUpReq struct {
 		Name string `json:"name" validate:"required"`
+		//
 	}
 	SignUpResp User
 )
