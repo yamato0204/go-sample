@@ -1,0 +1,56 @@
+name: api test
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - main
+      - develop
+    paths:
+      - api/**
+
+env:
+  TEST_DB_CONNECTION_NAME: root:password@tcp(localhost:3306)/portal?parseTime=true
+  IMAGE_NAME: api
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: api
+    services:
+      test-db:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: portal
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping -h 127.0.0.1 -u root -p${MYSQL_ROOT_PASSWORD}" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Install golang-migrate
+        run: |
+          curl -L https://packagecloud.io/golang-migrate/migrate/gpgkey | sudo apt-key add -
+          echo "deb https://packagecloud.io/golang-migrate/migrate/ubuntu/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/migrate.list
+          sudo apt-get update
+          sudo apt-get install -y migrate
+
+      - name: Migration
+        run: migrate --path ./migrations --database 'postgresql://${{ env.DB_USER }}:${{ env.DB_PW }}@${{ env.DB_HOST }}:${{ env.DB_PORT }}/${{ env.DB_NAME }}?sslmode=disable' -verbose up
+
+      - name: Build API Image
+        run: docker build -t ${{ env.IMAGE_NAME }} -f ./Dockerfile .
+
+      - name: Run API Container and Test
+        run: |
+          docker run \
+            -v ./:/api \
+            -w /api \
+            -e TEST_DB_CONNECTION_NAME="${{ env.TEST_DB_CONNECTION_NAME }}" \
+            -e TZ=Asia/Tokyo \
+            --network host -p ${{ env.API_PORT }}:${{ env.API_PORT }} ${{ env.IMAGE_NAME }}:latest \
+            go test -v ./tests/integration
