@@ -17,12 +17,6 @@ type UserController struct {
 	uc usecase.UserUsecase
 }
 
-// func NewRecipeController(uc usecase.RecipeUsecase) *RecipeController {
-// 	return &RecipeController{
-// 		uc: uc,
-// 	}
-// }
-
 func NewUserController(uc usecase.UserUsecase) *UserController {
 	return &UserController{
 		uc: uc,
