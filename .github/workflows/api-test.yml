@@ -40,7 +40,8 @@ jobs:
           sudo apt-get install -y migrate
 
       - name: Migration
-        run: migrate --path ./migrations --database 'postgresql://${{ env.DB_USER }}:${{ env.DB_PW }}@${{ env.DB_HOST }}:${{ env.DB_PORT }}/${{ env.DB_NAME }}?sslmode=disable' -verbose up
+        # run: migrate --path ./migrations --database 'postgresql://${{ env.DB_USER }}:${{ env.DB_PW }}@${{ env.DB_HOST }}:${{ env.DB_PORT }}/${{ env.DB_NAME }}?sslmode=disable' -verbose up
+        run: migrate --path ./migrations --database 'mysql://${{ env.TEST_DB_CONNECTION_NAME }}' -verbose up
 
       - name: Build API Image
         run: docker build -t ${{ env.IMAGE_NAME }} -f ./Dockerfile .
