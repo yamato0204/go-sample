@@ -10,7 +10,7 @@ on:
       - api/**
 
 env:
-  TEST_DB_CONNECTION_NAME: root:password@tcp(localhost:3306)/portal?parseTime=true
+  TEST_DB_CONNECTION_NAME: root:password@tcp(test-db:3306)/portal?parseTime=true
   IMAGE_NAME: go
   API_PORT: 8080
 
@@ -54,5 +54,6 @@ jobs:
             -w /api \
             -e TEST_DB_CONNECTION_NAME="${{ env.TEST_DB_CONNECTION_NAME }}" \
             -e TZ=Asia/Tokyo \
-            --network host -p ${{ env.API_PORT }}:${{ env.API_PORT }} ${{ env.IMAGE_NAME }}:latest \
+            -p ${{ env.API_PORT }}:${{ env.API_PORT }} \
+            ${{ env.IMAGE_NAME }}:latest \
             go test -v ./tests/integration
