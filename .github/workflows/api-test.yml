@@ -11,7 +11,8 @@ on:
 
 env:
   TEST_DB_CONNECTION_NAME: root:password@tcp(localhost:3306)/portal?parseTime=true
-  IMAGE_NAME: api
+  IMAGE_NAME: go
+  API_PORT: 8080
 
 jobs:
   test:
