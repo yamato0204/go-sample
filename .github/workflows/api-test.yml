@@ -10,7 +10,7 @@ on:
       - api/**
 
 env:
-  TEST_DB_CONNECTION_NAME: root:password@tcp(localhost:3306)/portal?parseTime=true
+  TEST_DB_CONNECTION_NAME: root:password@tcp(localhost:3306)/test??charset=utf8&parseTime=true&loc=Asia%%2FTokyo
   IMAGE_NAME: go
   API_PORT: 8080
 
@@ -25,7 +25,7 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: portal
+          MYSQL_DATABASE: test
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping -h 127.0.0.1 -u root -p${MYSQL_ROOT_PASSWORD}" --health-interval=10s --health-timeout=5s --health-retries=3

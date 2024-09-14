@@ -41,5 +41,7 @@ func ConvertDBEnv(cfg *config.DBConfig) *database.DBConfig {
 		User:     cfg.User,
 		DBName:   cfg.DBName,
 		RootPass: cfg.RootPass,
+		Host:     cfg.Host,
+		Port:     cfg.Port,
 	}
 }

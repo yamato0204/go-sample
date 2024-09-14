@@ -17,10 +17,12 @@ type DBConfig struct {
 	User     string
 	DBName   string
 	RootPass string
+	Host     string
+	Port     string
 }
 
 func NewDB(cfg *DBConfig) *DB {
-	dsn := fmt.Sprintf("%s:%s@tcp(db)/%s?charset=utf8&parseTime=true&loc=Asia%%2FTokyo", cfg.User, cfg.RootPass, cfg.DBName)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:3306)/%s?charset=utf8&parseTime=true&loc=Asia%%2FTokyo", cfg.User, cfg.RootPass, cfg.Host, cfg.DBName)
 
 	db, err := sqlx.Connect("mysql", dsn)
 

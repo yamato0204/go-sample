@@ -1,4 +1,4 @@
-package config
+package integration
 
 import (
 	"os"
@@ -14,10 +14,10 @@ type DBConfig struct {
 
 func NewDBConfig() *DBConfig {
 
-	user := os.Getenv("MYSQL_USER_NAME")
-	pass := os.Getenv("MYSQL_ROOT_PASSWORD")
+	user := os.Getenv("TEST_MYSQL_USER_NAME")
+	pass := os.Getenv("TEST_MYSQL_ROOT_PASS")
 	database := os.Getenv("MYSQL_DB_NAME")
-	host := os.Getenv("MYSQL_HOST")
+	host := os.Getenv("TEST_MYSQL_HOST")
 	port := os.Getenv("PORT")
 
 	return &DBConfig{
