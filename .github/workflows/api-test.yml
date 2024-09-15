@@ -54,7 +54,8 @@ jobs:
 
       - name: Run API Container and Test
         run: |
-          docker run \
+          docker run -d \
+            --name api-container \
             -v ./:/api \
             -w /api \
             -e MYSQL_DB_NAME="${{ env.MYSQL_DB_NAME }}" \
@@ -62,5 +63,7 @@ jobs:
             -e MYSQL_ROOT_PASSWORD="${{ env.MYSQL_ROOT_PASSWORD }}" \
             -e MYSQL_HOST="${{ env.MYSQL_HOST }}" \
             -e TZ=Asia/Tokyo \
-            --network host -p ${{ env.API_PORT }}:${{ env.API_PORT }} ${{ env.IMAGE_NAME }}:latest \
-            go test -v ./tests/integration
+            --network host \
+            -p ${{ env.API_PORT }}:${{ env.API_PORT }} ${{ env.IMAGE_NAME }}:latest
+            sleep 10
+            docker exec api-container go test -v ./tests/integration
