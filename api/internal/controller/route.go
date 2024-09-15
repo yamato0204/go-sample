@@ -11,7 +11,7 @@ func SetupRoutes(e *echo.Echo,
 	e.GET("/", func(c echo.Context) error {
 		return c.String(200, "Hello, World!")
 	})
-	//
+
 	g := e.Group("/api")
 
 	users := g.Group("/users")
