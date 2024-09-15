@@ -10,7 +10,7 @@ on:
       - api/**
 
 env:
-  TEST_DB_CONNECTION_NAME: root:password@tcp(localhost:3306)/test??charset=utf8
+  TEST_DB_CONNECTION_NAME: root:password@tcp(localhost:3306)/test?parseTime=true
   IMAGE_NAME: go
   API_PORT: 8080
 
