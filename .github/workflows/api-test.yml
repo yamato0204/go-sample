@@ -1,13 +1,15 @@
 name: api test
 
-on:
-  pull_request:
-    types: [opened, synchronize]
-    branches:
-      - main
-      - develop
-    paths:
-      - api/**
+# on:
+#   pull_request:
+#     types: [opened, synchronize]
+#     branches:
+#       - main
+#       - develop
+#     paths:
+#       - api/**
+on: push
+
 env:
   MYSQL_HOST: test-db
   MYSQL_USER_NAME: root
@@ -62,4 +64,4 @@ jobs:
             -e TZ=Asia/Tokyo \
             -p ${{ env.API_PORT }}:${{ env.API_PORT }} \
             ${{ env.IMAGE_NAME }}:latest \
-            go test -v ./tests/integration
+            go test -v ./tests/integratio
