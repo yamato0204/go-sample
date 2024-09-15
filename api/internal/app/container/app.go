@@ -32,7 +32,7 @@ func NewApp(db *database.DB, container *Container) (*App, error) {
 	e := echo.New()
 
 	//	e.Validator = NewValidator()
-
+	//
 	controller.SetupRoutes(e, container.UserCtrl)
 
 	return &App{
