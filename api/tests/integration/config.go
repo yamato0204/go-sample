@@ -1,6 +1,7 @@
 package integration
 
 import (
+	"log"
 	"os"
 )
 
@@ -18,13 +19,16 @@ func NewDBConfig() *DBConfig {
 	pass := os.Getenv("TEST_MYSQL_ROOT_PASS")
 	database := os.Getenv("MYSQL_DB_NAME")
 	host := os.Getenv("TEST_MYSQL_HOST")
-	port := os.Getenv("PORT")
+
+	if user == "" || pass == "" || database == "" || host == "" {
+		log.Fatalf("環境変数が正しく設定されていません。user: %s, pass: %s, database: %s, host: %s", user, pass, database, host)
+	}
 
 	return &DBConfig{
 		User:     user,
 		RootPass: pass,
 		DBName:   database,
 		Host:     host,
-		Port:     port,
+		Port:     "3306",
 	}
 }
