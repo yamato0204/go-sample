@@ -12,7 +12,6 @@ func SetupRoutes(e *echo.Echo,
 		return c.String(200, "Hello, World!")
 	})
 
-	//
 	g := e.Group("/api")
 
 	// users
