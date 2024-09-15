@@ -9,7 +9,7 @@ on:
     paths:
       - api/**
 env:
-  MYSQL_HOST: 127.0.0.1
+  MYSQL_HOST: localhost
   MYSQL_USER_NAME: root
   MYSQL_ROOT_PASSWORD: password
   MYSQL_DB_NAME: test
