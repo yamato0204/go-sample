@@ -15,10 +15,10 @@ type DBConfig struct {
 
 func NewDBConfig() *DBConfig {
 
-	user := os.Getenv("TEST_MYSQL_USER_NAME")
-	pass := os.Getenv("TEST_MYSQL_ROOT_PASS")
+	user := os.Getenv("MYSQL_USER_NAME")
+	pass := os.Getenv("MYSQL_ROOT_PASSWORD")
 	database := os.Getenv("MYSQL_DB_NAME")
-	host := os.Getenv("TEST_MYSQL_HOST")
+	host := os.Getenv("MYSQL_HOST")
 
 	if user == "" || pass == "" || database == "" || host == "" {
 		log.Fatalf("環境変数が正しく設定されていません。user: %s, pass: %s, database: %s, host: %s", user, pass, database, host)
