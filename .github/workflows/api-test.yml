@@ -62,6 +62,5 @@ jobs:
             -e MYSQL_ROOT_PASSWORD="${{ env.MYSQL_ROOT_PASSWORD }}" \
             -e MYSQL_HOST="${{ env.MYSQL_HOST }}" \
             -e TZ=Asia/Tokyo \
-            --network host -p ${{ env.API_PORT }}:${{ env.API_PORT }} \
-            ${{ env.IMAGE_NAME }}:latest \
+            --network host -p ${{ env.API_PORT }}:${{ env.API_PORT }} ${{ env.IMAGE_NAME }}:latest \
             go test -v ./tests/integration
