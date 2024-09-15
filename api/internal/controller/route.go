@@ -14,7 +14,6 @@ func SetupRoutes(e *echo.Echo,
 
 	g := e.Group("/api")
 
-	// users
 	users := g.Group("/users")
 
 	users.GET("/:id", userCtrl.GetUserByID)
