@@ -8,9 +8,12 @@ on:
       - develop
     paths:
       - api/**
-
+  # TEST_DB_CONNECTION_NAME: root:password@tcp(localhost:3306)/test?parseTime=true
 env:
-  TEST_DB_CONNECTION_NAME: root:password@tcp(localhost:3306)/test?parseTime=true
+  TEST_MYSQL_HOST: localhost
+  TEST_MYSQL_USER_NAME: root
+  TEST_MYSQL_ROOT_PASS: password
+  MYSQL_DB_NAME: test
   IMAGE_NAME: go
   API_PORT: 8080
 
@@ -53,6 +56,10 @@ jobs:
             -v ./:/api \
             -w /api \
             -e TEST_DB_CONNECTION_NAME="${{ env.TEST_DB_CONNECTION_NAME }}" \
+            -e TEST_MYSQL_USER_NAME="${{ env.TEST_MYSQL_USER_NAME }}" \
+            -e TEST_MYSQL_ROOT_PASS="${{ env.TEST_MYSQL_ROOT_PASS }}" \
+            -e TEST_MYSQL_HOST="${{ env.TEST_MYSQL_HOST }}" \
+            -e MYSQL_DB_NAME="${{ env.MYSQL_DB_NAME }}" \
             -e TZ=Asia/Tokyo \
             -p ${{ env.API_PORT }}:${{ env.API_PORT }} \
             ${{ env.IMAGE_NAME }}:latest \
