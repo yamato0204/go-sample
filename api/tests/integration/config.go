@@ -1,7 +1,6 @@
 package integration
 
 import (
-	"log"
 	"os"
 )
 
@@ -20,9 +19,9 @@ func NewDBConfig() *DBConfig {
 	database := os.Getenv("MYSQL_DB_NAME")
 	host := os.Getenv("MYSQL_HOST")
 
-	if user == "" || pass == "" || database == "" || host == "" {
-		log.Fatalf("環境変数が正しく設定されていません。user: %s, pass: %s, database: %s, host: %s", user, pass, database, host)
-	}
+	// if user == "" || pass == "" || database == "" || host == "" {
+	// 	log.Fatalf("環境変数が正しく設定されていません。user: %s, pass: %s, database: %s, host: %s", user, pass, database, host)
+	// }
 
 	return &DBConfig{
 		User:     user,

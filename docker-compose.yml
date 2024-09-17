@@ -9,9 +9,9 @@ services:
       - Asia/Tokyo
     ports:
       - "8080:8080"
-    # volumes:
-    #   - ./api/:/app
-    #   - .env:/app/.env
+    volumes:
+      - ./api/:/app
+      - .env:/app/.env
     develop:
       watch:
         - action: rebuild
