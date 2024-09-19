@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"log"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/golang-migrate/migrate/v4"
@@ -28,6 +29,13 @@ func (db *DB) Migrate() error {
 		fmt.Println(err)
 		return err
 	}
+
+	tables, err := db.ListTables()
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	log.Println(tables)
 
 	return nil
 
