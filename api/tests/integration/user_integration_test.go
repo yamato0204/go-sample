@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"go-temp/go-sample/api/internal/domain/model"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -25,10 +26,10 @@ func TestGetUserByID(t *testing.T) {
 	}{
 		{
 			name:  "success",
-			input: "1",
+			input: "a4e8b5d4-9c1f-11eb-a8b3-0242ac130003",
 			expected: model.User{
-				ID:    1,
-				Name:  "test",
+				ID:    "a4e8b5d4-9c1f-11eb-a8b3-0242ac130003",
+				Name:  "Alice",
 				Email: "test@test.com",
 			},
 		},
@@ -39,7 +40,8 @@ func TestGetUserByID(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			// テスト用のEchoコンテキストとレスポンスレコーダを作成
 			e := echo.New()
-			req := httptest.NewRequest(http.MethodGet, "/users/"+tt.input, nil)
+			log.Println(tt.input)
+			req := httptest.NewRequest(http.MethodGet, "/api/users/"+tt.input, nil)
 			rec := httptest.NewRecorder()
 			c := e.NewContext(req, rec)
 
