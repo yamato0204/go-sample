@@ -1,14 +1,13 @@
 name: api test
 
-# on:
-#   pull_request:
-#     types: [opened, synchronize]
-#     branches:
-#       - main
-#       - develop
-#     paths:
-#       - api/**
-on: push
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - main
+      - develop
+    paths:
+      - api/**
 
 env:
   MYSQL_HOST: localhost
