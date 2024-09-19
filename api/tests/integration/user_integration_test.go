@@ -40,10 +40,12 @@ func TestGetUserByID(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			// テスト用のEchoコンテキストとレスポンスレコーダを作成
 			e := echo.New()
-			log.Println(tt.input)
 			req := httptest.NewRequest(http.MethodGet, "/api/users/"+tt.input, nil)
 			rec := httptest.NewRecorder()
 			c := e.NewContext(req, rec)
+
+			c.SetParamNames("id")
+			c.SetParamValues(tt.input)
 
 			// 実際のハンドラを呼び出し
 			err := app.UserCtrl.GetUserByID(c)
@@ -59,6 +61,10 @@ func TestGetUserByID(t *testing.T) {
 			var actual model.User
 			err = json.Unmarshal(rec.Body.Bytes(), &actual)
 			assert.NoError(t, err)
+			log.Println(actual.Name)
+			log.Println(actual.Email)
+			log.Println(tt.expected.Name)
+			log.Println(tt.expected.Email)
 
 			// 期待される結果と一致するか確認
 			assert.Equal(t, tt.expected.ID, actual.ID)

@@ -4,6 +4,7 @@ import (
 	"context"
 	"go-temp/go-sample/api/internal/app/container"
 	"go-temp/go-sample/api/internal/pkg/database"
+	"log"
 )
 
 func Initialize(ctx context.Context) (*container.Container, InfraInstance) {
@@ -13,6 +14,13 @@ func Initialize(ctx context.Context) (*container.Container, InfraInstance) {
 	db := database.NewDB(databaseDBConfig)
 
 	app, infraInstances := NewTestController(ctx, db)
+	err := db.Migrate()
+	if err != nil {
+		log.Fatalf("failed to migrate: %v\n", err)
+		return nil, infraInstances
+	}
+	log.Println("migrated")
+
 	return app, infraInstances
 }
 

@@ -39,7 +39,7 @@ func (r *userRepository) GetUserByID(ctx context.Context, userID string) (*model
 	`, userID)
 
 	if errors.Is(err, sql.ErrNoRows) {
-		fmt.Println("no rows")
+		fmt.Println("no rows in infra")
 		return nil, err
 
 	}
