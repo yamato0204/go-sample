@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"go-temp/go-sample/api/internal/domain/model"
 	"go-temp/go-sample/api/internal/domain/repo"
 	"go-temp/go-sample/api/internal/pkg/database"
@@ -23,15 +24,31 @@ func NewUserRepository(db *database.DB) repo.UserRepository {
 
 // GetUserByID はIDからユーザーを取得します
 func (r *userRepository) GetUserByID(ctx context.Context, userID string) (*model.User, error) {
-	user := &model.User{}
-	err := r.db.Get(user, "SELECT * FROM users WHERE id = ?", userID)
-	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return nil, nil
-		}
-		return nil, errors.WithStack(err)
+	var user model.User
+	err := r.db.GetContext(ctx, &user, `
+	SELECT 
+		id,
+		name,
+		email,
+		created_at,
+		updated_at
+	FROM 
+		users
+	WHERE
+		id = ?
+	`, userID)
+
+	if errors.Is(err, sql.ErrNoRows) {
+		fmt.Println("no rows")
+		return nil, err
+
 	}
-	return user, nil
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }
 
 // UpdateUser はユーザー情報を更新します

@@ -30,6 +30,7 @@ func NewDB(cfg *DBConfig) *DB {
 	if err != nil {
 		log.Fatalf("failed to open db: %v", err)
 	}
+	log.Println("db connection success")
 
 	return &DB{db}
 }
