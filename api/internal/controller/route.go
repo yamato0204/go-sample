@@ -6,6 +6,7 @@ import (
 
 func SetupRoutes(e *echo.Echo,
 	userCtrl *UserController,
+	reportCtrl *ReportController,
 
 ) {
 	e.GET("/", func(c echo.Context) error {
@@ -17,5 +18,10 @@ func SetupRoutes(e *echo.Echo,
 	users := g.Group("/users")
 
 	users.GET("/:id", userCtrl.GetUserByID)
+
+	//reports
+	reports := g.Group("/reports")
+
+	reports.GET("/", reportCtrl.GetReportByUserID)
 
 }

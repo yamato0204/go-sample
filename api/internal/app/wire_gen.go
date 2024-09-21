@@ -25,7 +25,10 @@ func New(contextContext context.Context) (*container.App, error) {
 	userRepository := db.NewUserRepository(databaseDB)
 	userUsecase := usecase.NewUserUsecase(userRepository)
 	userController := controller.NewUserController(userUsecase)
-	containerContainer := container.NewCtrl(userController)
+	reportRepository := db.NewReportRepository(databaseDB)
+	reportUsecase := usecase.NewReportUsecase(reportRepository)
+	reportController := controller.NewReportController(reportUsecase)
+	containerContainer := container.NewCtrl(userController, reportController)
 	app, err := container.NewApp(databaseDB, containerContainer)
 	if err != nil {
 		return nil, err
