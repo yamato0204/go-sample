@@ -8,3 +8,7 @@ import (
 type UserUsecase interface {
 	GetUserByID(ctx context.Context, userID string) (*model.User, error)
 }
+
+type ReportUsecase interface {
+	GetReportByUserID(ctx context.Context) ([]*model.Report, error)
+}

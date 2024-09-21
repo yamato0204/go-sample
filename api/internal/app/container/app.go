@@ -10,15 +10,18 @@ import (
 )
 
 type Container struct {
-	UserCtrl *controller.UserController
+	UserCtrl   *controller.UserController
+	ReportCtrl *controller.ReportController
 }
 
 func NewCtrl(
 	userCtrl *controller.UserController,
+	reportCtrl *controller.ReportController,
 
 ) *Container {
 	return &Container{
-		UserCtrl: userCtrl,
+		UserCtrl:   userCtrl,
+		ReportCtrl: reportCtrl,
 	}
 }
 
@@ -33,7 +36,7 @@ func NewApp(db *database.DB, container *Container) (*App, error) {
 
 	//	e.Validator = NewValidator()
 	//
-	controller.SetupRoutes(e, container.UserCtrl)
+	controller.SetupRoutes(e, container.UserCtrl, container.ReportCtrl)
 
 	return &App{
 		e:  e,

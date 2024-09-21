@@ -27,10 +27,14 @@ func New(context.Context) (*container.App, error) {
 		ConvertDBEnv,
 		config.NewDBConfig,
 
-		// User
 		controller.NewUserController,
+		controller.NewReportController,
+
 		usecase.NewUserUsecase,
+		usecase.NewReportUsecase,
+
 		db.NewUserRepository,
+		db.NewReportRepository,
 	)
 
 	return nil, nil
