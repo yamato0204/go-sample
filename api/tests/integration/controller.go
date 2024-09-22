@@ -11,7 +11,8 @@ import (
 )
 
 type InfraInstance struct {
-	UserRepository repo.UserRepository
+	UserRepository   repo.UserRepository
+	ReportRepository repo.ReportRepository
 }
 
 func NewTestController(ctx context.Context, database *database.DB) (*container.Container, InfraInstance) {
@@ -27,7 +28,8 @@ func NewTestController(ctx context.Context, database *database.DB) (*container.C
 	controller := container.NewCtrl(userController, reportController)
 
 	InfraInstance := InfraInstance{
-		UserRepository: ur,
+		UserRepository:   ur,
+		ReportRepository: rr,
 	}
 
 	return controller, InfraInstance
