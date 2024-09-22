@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"go-temp/go-sample/api/internal/usecase"
 	"net/http"
 
@@ -11,7 +12,7 @@ type Report struct {
 	ID           string `json:"id"`
 	Comment      string `json:"comment"`
 	ThumbnailUrl string `json:"thumbnail_url"`
-	AuthorID     string `json:"author_id"`
+	UserID       string `json:"user_id"`
 	Recipe       Recipe `json:"recipe_id"`
 
 	CreatedAt string `json:"created_at"`
@@ -24,6 +25,7 @@ type Recipe struct {
 	ThumbnailUrl string   `json:"thumbnail_url"`
 	Recipe       string   `json:"recipe"`
 	Category     Category `json:"category"`
+	Ingredient   string   `json:"ingredient"`
 	CreatedAt    string   `json:"created_at"`
 	UpdatedAt    string   `json:"updated_at"`
 }
@@ -46,17 +48,19 @@ func NewReportController(rc usecase.ReportUsecase) *ReportController {
 func (ct *ReportController) GetReportByUserID(c echo.Context) error {
 	reports, err := ct.rc.GetReportByUserID(c.Request().Context())
 	if err != nil {
+		fmt.Println(err)
+		fmt.Println("error in controller")
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	// Create a slice of response structs to hold the report data
+	//Create a slice of response structs to hold the report data
 	var reportResponses []Report
 	for _, report := range reports {
 		reportResponses = append(reportResponses, Report{
 			ID:           report.ID,
 			Comment:      report.Comment,
 			ThumbnailUrl: report.ThumbnailUrl,
-			AuthorID:     report.AuthorID,
+			UserID:       report.UserID,
 			Recipe: Recipe{
 				ID:           report.Recipe.ID,
 				Title:        report.Recipe.Title,
@@ -66,8 +70,9 @@ func (ct *ReportController) GetReportByUserID(c echo.Context) error {
 					ID:   report.Recipe.Category.ID,
 					Name: report.Recipe.Category.Name,
 				},
-				CreatedAt: report.Recipe.CreatedAt,
-				UpdatedAt: report.Recipe.UpdatedAt,
+				Ingredient: report.Recipe.Ingredient,
+				CreatedAt:  report.Recipe.CreatedAt,
+				UpdatedAt:  report.Recipe.UpdatedAt,
 			},
 			CreatedAt: report.CreatedAt,
 			UpdatedAt: report.UpdatedAt,

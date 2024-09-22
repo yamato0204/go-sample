@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"fmt"
 	"go-temp/go-sample/api/internal/domain/model"
 	"go-temp/go-sample/api/internal/domain/repo"
 )
@@ -22,6 +23,8 @@ func (r *reportUsecase) GetReportByUserID(ctx context.Context) ([]*model.Report,
 
 	report, err := r.repo.GetReportByUserID(ctx, userID)
 	if err != nil {
+		fmt.Println(err)
+		fmt.Println("error in usecase")
 		return nil, err
 	}
 
