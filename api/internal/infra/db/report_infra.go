@@ -23,33 +23,34 @@ func NewReportRepository(db *database.DB) repo.ReportRepository {
 
 func (rr *reportRepository) GetReportByUserID(ctx context.Context, userID string) ([]*model.Report, error) {
 	var report []*model.Report
-	err := rr.db.GetContext(ctx, &report, `
+	err := rr.db.SelectContext(ctx, &report, `
 	SELECT 
 		r.id,
 		r.comment,
 		r.thumbnail_url,
-		r.author_id,
-		r.recipe_id,
+		r.user_id,
+		r.recipe_id AS "recipe.id",
 		r.created_at,
 		r.updated_at,
 
-		rc.id AS recipe_id,
-		rc.title AS recipe_title,
-		rc.thumbnail_url AS recipe_thumbnail,
-		rc.recipe,
-		rc.category_id,
-		rc.ingredient,
-		rc.created_at AS recipe_created_at,
-		rc.updated_at AS recipe_updated_at,
 
-		c.id AS category_id,
-		c.name AS category_name
+		rc.id AS "recipe.id",
+		rc.title AS "recipe.title",
+		rc.thumbnail_url AS "recipe.thumbnail_url",
+		rc.recipe AS "recipe.recipe",
+		rc.category_id AS "recipe.category.id",
+		rc.ingredient AS "recipe.ingredient",
+		rc.created_at AS "recipe.created_at",
+		rc.updated_at AS "recipe.updated_at",
+
+		c.id AS "category.id",
+		c.name AS "category.name"
 
 	FROM 
 		reports AS r
 	INNER JOIN
 		users AS u
-	ON r.author_id = u.id
+	ON r.user_id = u.id
 	INNER JOIN
 		recipes AS rc
 	ON r.recipe_id = rc.id
@@ -57,7 +58,7 @@ func (rr *reportRepository) GetReportByUserID(ctx context.Context, userID string
 		categories AS c
 	ON rc.category_id = c.id
 	WHERE
-		r.author_id = ?
+		r.user_id = ?
 	`, userID)
 
 	if errors.Is(err, sql.ErrNoRows) {
@@ -67,6 +68,8 @@ func (rr *reportRepository) GetReportByUserID(ctx context.Context, userID string
 	}
 
 	if err != nil {
+		fmt.Println("error in infra")
+		fmt.Println(err)
 		return nil, err
 	}
 
