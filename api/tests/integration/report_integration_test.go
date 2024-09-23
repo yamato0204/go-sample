@@ -39,7 +39,7 @@ func TestGetReportByUserID(t *testing.T) {
 							ID:   "1",
 							Name: "フレンチ",
 						},
-						Ingredient: `[{"ingredient": "トマト", "amount": "100g"}, {"ingredient": "バジル", "amount": "10枚"}]`,
+						Ingredient: `[{"amount": "100g", "ingredient": "トマト"}, {"amount": "10枚", "ingredient": "バジル"}]`,
 						CreatedAt:  "2024-08-01T10:00:00Z",
 						UpdatedAt:  "2024-08-01T10:00:00Z",
 					},

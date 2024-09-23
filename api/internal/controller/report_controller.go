@@ -67,8 +67,8 @@ func (ct *ReportController) GetReportByUserID(c echo.Context) error {
 				ThumbnailUrl: report.Recipe.ThumbnailUrl,
 				Recipe:       report.Recipe.Recipe,
 				Category: Category{
-					ID:   report.Recipe.Category.ID,
-					Name: report.Recipe.Category.Name,
+					ID:   report.Category.ID,
+					Name: report.Category.Name,
 				},
 				Ingredient: report.Recipe.Ingredient,
 				CreatedAt:  report.Recipe.CreatedAt,
