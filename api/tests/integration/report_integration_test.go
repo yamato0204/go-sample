@@ -18,32 +18,34 @@ func TestGetReportByUserID(t *testing.T) {
 
 	tests := []struct {
 		name        string
-		expected    controller.Report
+		expected    []controller.Report
 		expectedErr string
 		preparation func()
 	}{
 		{
 			name: "success",
-			expected: controller.Report{
-				ID:           "1e8b6d70-9c2f-11eb-a8b3-0242ac130003",
-				Comment:      "トマトサラダのレビュー。簡単で美味しかったです！",
-				ThumbnailUrl: "https://video.com/production/videos/b331637e-1067-4471-acf3-6dcc7f60d5bb/.jpg",
-				UserID:       "a4e8b5d4-9c1f-11eb-a8b3-0242ac130003",
-				Recipe: controller.Recipe{
-					ID:           "01J6CXNF4GYJFTNTTH9TZ3MSJG",
-					Title:        "トマトサラダ",
-					ThumbnailUrl: "https://video.com/production/videos/b331637e-1067-4471-acf3-/.jpg",
-					Recipe:       "トマトとバジルのシンプルなサラダ。",
-					Category: controller.Category{
-						ID:   "1",
-						Name: "フレンチ",
+			expected: []controller.Report{
+				{
+					ID:           "1e8b6d70-9c2f-11eb-a8b3-0242ac130003",
+					Comment:      "トマトサラダのレビュー。簡単で美味しかったです！",
+					ThumbnailUrl: "https://video.com/production/videos/b331637e-1067-4471-acf3-6dcc7f60d5bb/.jpg",
+					UserID:       "a4e8b5d4-9c1f-11eb-a8b3-0242ac130003",
+					Recipe: controller.Recipe{
+						ID:           "01J6CXNF4GYJFTNTTH9TZ3MSJG",
+						Title:        "トマトサラダ",
+						ThumbnailUrl: "https://video.com/production/videos/b331637e-1067-4471-acf3-/.jpg",
+						Recipe:       "トマトとバジルのシンプルなサラダ。",
+						Category: controller.Category{
+							ID:   "1",
+							Name: "フレンチ",
+						},
+						Ingredient: `[{"ingredient": "トマト", "amount": "100g"}, {"ingredient": "バジル", "amount": "10枚"}]`,
+						CreatedAt:  "2024-08-01T10:00:00Z",
+						UpdatedAt:  "2024-08-01T10:00:00Z",
 					},
-					Ingredient: `[{"ingredient": "トマト", "amount": "100g"}, {"ingredient": "バジル", "amount": "10枚"}]`,
-					CreatedAt:  "2024-08-01 10:00:00",
-					UpdatedAt:  "2024-08-01 10:00:00",
+					CreatedAt: "2024-09-01T09:00:00Z",
+					UpdatedAt: "2024-09-01T09:00:00Z",
 				},
-				CreatedAt: "2024-09-01 09:00:00",
-				UpdatedAt: "2024-09-01 09:00:00",
 			},
 		},
 	}
@@ -68,26 +70,26 @@ func TestGetReportByUserID(t *testing.T) {
 			assert.Equal(t, http.StatusOK, rec.Code)
 
 			// レスポンスをデコード
-			var actual controller.Report
+			var actual []controller.Report
 			err = json.Unmarshal(rec.Body.Bytes(), &actual)
 			assert.NoError(t, err)
 
 			// 期待される結果と一致するか確認
-			assert.Equal(t, tt.expected.ID, actual.ID)
-			assert.Equal(t, tt.expected.Comment, actual.Comment)
-			assert.Equal(t, tt.expected.ThumbnailUrl, actual.ThumbnailUrl)
-			assert.Equal(t, tt.expected.UserID, actual.UserID)
-			assert.Equal(t, tt.expected.Recipe.ID, actual.Recipe.ID)
-			assert.Equal(t, tt.expected.Recipe.Title, actual.Recipe.Title)
-			assert.Equal(t, tt.expected.Recipe.ThumbnailUrl, actual.Recipe.ThumbnailUrl)
-			assert.Equal(t, tt.expected.Recipe.Recipe, actual.Recipe.Recipe)
-			assert.Equal(t, tt.expected.Recipe.Category.ID, actual.Recipe.Category.ID)
-			assert.Equal(t, tt.expected.Recipe.Category.Name, actual.Recipe.Category.Name)
-			assert.Equal(t, tt.expected.Recipe.Ingredient, actual.Recipe.Ingredient)
-			assert.Equal(t, tt.expected.Recipe.CreatedAt, actual.Recipe.CreatedAt)
-			assert.Equal(t, tt.expected.Recipe.UpdatedAt, actual.Recipe.UpdatedAt)
-			assert.Equal(t, tt.expected.CreatedAt, actual.CreatedAt)
-			assert.Equal(t, tt.expected.UpdatedAt, actual.UpdatedAt)
+			assert.Equal(t, tt.expected[0].ID, actual[0].ID)
+			assert.Equal(t, tt.expected[0].Comment, actual[0].Comment)
+			assert.Equal(t, tt.expected[0].ThumbnailUrl, actual[0].ThumbnailUrl)
+			assert.Equal(t, tt.expected[0].UserID, actual[0].UserID)
+			assert.Equal(t, tt.expected[0].Recipe.ID, actual[0].Recipe.ID)
+			assert.Equal(t, tt.expected[0].Recipe.Title, actual[0].Recipe.Title)
+			assert.Equal(t, tt.expected[0].Recipe.ThumbnailUrl, actual[0].Recipe.ThumbnailUrl)
+			assert.Equal(t, tt.expected[0].Recipe.Recipe, actual[0].Recipe.Recipe)
+			assert.Equal(t, tt.expected[0].Recipe.Category.ID, actual[0].Recipe.Category.ID)
+			assert.Equal(t, tt.expected[0].Recipe.Category.Name, actual[0].Recipe.Category.Name)
+			assert.Equal(t, tt.expected[0].Recipe.Ingredient, actual[0].Recipe.Ingredient)
+			assert.Equal(t, tt.expected[0].Recipe.CreatedAt, actual[0].Recipe.CreatedAt)
+			assert.Equal(t, tt.expected[0].Recipe.UpdatedAt, actual[0].Recipe.UpdatedAt)
+			assert.Equal(t, tt.expected[0].CreatedAt, actual[0].CreatedAt)
+			assert.Equal(t, tt.expected[0].UpdatedAt, actual[0].UpdatedAt)
 		})
 	}
 }
