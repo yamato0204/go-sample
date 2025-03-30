@@ -64,6 +64,7 @@ func TestGetUserByID(t *testing.T) {
 			log.Println(actual.Name)
 			log.Println(actual.Email)
 			log.Println(tt.expected.Name)
+
 			log.Println(tt.expected.Email)
 
 			// 期待される結果と一致するか確認
