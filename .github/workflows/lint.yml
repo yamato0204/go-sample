@@ -9,7 +9,8 @@ on:
       -
 
 jobs:
-  golangci-lint:
+  golangci:
+    name: lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -24,5 +25,6 @@ jobs:
         uses: golangci/golangci-lint-action@v3
         with:
           version: latest
+          working-directory: api
       - name: Run golangci-lint
         run: cd api && golangci-lint run ./...
