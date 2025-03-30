@@ -20,3 +20,6 @@ MIGRATION_NAME?=default_migration
 #make create-migration MIGRATION_NAME=create_users_table
 create-migration:
 	migrate create -ext sql -dir api/migrations -seq $(MIGRATION_NAME)
+
+lint:
+	cd api && golangci-lint run -v ./...
